@@ -56,7 +56,7 @@
 -->
 <?php //if($this->request->session()->check("Auth.User.username")): ?>
 <?php if($this->getRequest()->getSession()->check("Auth.User.username")): ?>
-                <li><a href="http://192.168.1.51:8765/Users/logout/">LOGOUT</a></li>
+                <li><?= $this->Html->link(__('LOGOUT'), ["controller" => "Users", 'action' => 'logout']) ?></li>
 <?php endif ?>
             </ul>
         </div>

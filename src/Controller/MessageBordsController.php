@@ -19,9 +19,23 @@ class MessageBordsController extends AppController
      */
     public function index()
     {
-        $this->loadModels(["MessageAnswers"]);
+        $this->loadModels(["MessageAnswers", "PrivateMessages"]);
         $messageAnswers = $this->MessageAnswers->newEntity();
 
+        $this->paginate = [
+            'contain' => [
+              "MessageBords.Users",
+              "MessageBords.IncidentManagements.ManagementPrefixes",
+              'MessageBords.MessageStatuses', 
+              "MessageBords.MessageDestinations.Users", 
+              "MessageBords.MessageDestinations.MessageAnswers.MessageChoices", 
+              "MessageBords.MessageChoices", 
+              "MessageBords.MessageFiles"
+            ],
+            "order" => ["message_bords_id" => "desc"],
+            "maxLimit" => 5
+          ];
+        /*
         $this->paginate = [
             'contain' => [
               "Users",
@@ -33,9 +47,17 @@ class MessageBordsController extends AppController
               "MessageFiles"
             ],
             "order" => ["message_bords_id" => "desc"],
-            "maxLimit" => 3
+            "maxLimit" => 5
           ];
-        $messageBords = $this->paginate($this->MessageBords);
+         */
+        $loginUser = $this->request->session()->read("Auth.User.users_id");
+        $privateMessages = $this->PrivateMessages->find("all")
+            ->where(["OR" => [["PrivateMessages.users_id" => $loginUser], ["PrivateMessages.users_id" => 7]]]);
+        $messageBords = $this->paginate($privateMessages);
+        //$messageBords = $this->MessageBords->find("all")
+        //    ->where(["MessageBords.users_id" => 4]);
+        //$messageBords = $this->paginate($messageBords);
+        //$messageBords = $this->paginate($this->MessageBords);
         $this->set(compact('messageBords', "messageAnswers"));
     }
 
@@ -79,6 +101,12 @@ class MessageBordsController extends AppController
                 {
                     $this->Flash->success(__('The message bord has been saved.'));
                     $bordId = $messageBord->message_bords_id;
+
+                    //privateMessage保存
+                    if(!empty($data["private"][0]))
+                    {
+                        $this->privateSave($data["private"], $bordId);
+                    }
 
                     //choiceを保存
                     if(!empty($data["content"][0]))
@@ -244,6 +272,22 @@ class MessageBordsController extends AppController
         }
         $messageDestination = $this->MessageDestinations->newEntities($destinationEntity);
         if($this->MessageDestinations->saveMany($messageDestination)){
+            return true;
+        }
+        return false;
+    }
+
+    public function privateSave($data = null, $id = null)
+    {
+        $this->loadModels(["PrivateMessages"]);
+        foreach($data as $user){
+            $privateEntity[] = [
+                "message_bords_id" => $id,
+                "users_id" => $user
+            ];
+        }
+        $privateMessages = $this->PrivateMessages->newEntities($privateEntity);
+        if($this->PrivateMessages->saveMany($privateMessages)){
             return true;
         }
         return false;

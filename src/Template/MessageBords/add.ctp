@@ -38,7 +38,8 @@
             echo "</div>";
             echo $this->Form->control('message', ["label" => "メッセージ"]);
             echo $this->Form->control('period', ["label" => "期限"]);
-            echo str_replace(";", " ", $this->Form->control("user", ["label" => "ユーザ", "multiple" => "checkbox", "options" => $users]));
+            echo str_replace(";", " ", $this->Form->control("private", ["label" => "閲覧可能ユーザ", "multiple" => "checkbox", "options" => $users]));
+            echo str_replace(";", " ", $this->Form->control("user", ["label" => "宛先ユーザ", "multiple" => "checkbox", "options" => $users]));
             //filesへの入力
             echo $this->Form->file("file[]", ["multiple" => "true", "secure" => false]);
         ?>
