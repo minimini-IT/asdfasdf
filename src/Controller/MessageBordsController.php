@@ -148,9 +148,30 @@ class MessageBordsController extends AppController
 
         }
         $messageStatuses = $this->MessageBords->MessageStatuses->find('list', ['limit' => 200]);
-        $users = $this->Users->find('list', ['limit' => 200])
+        //destination用
+        $soukatu = $this->Users->find("list", ["limit" => 200])
+            ->where(["belongs_id" => 1])
+            ->where(["users_id !=" => 7])
             ->where(["delete_flag" => 0]);
-        $this->set(compact('messageBord', 'messageStatuses', "users"));
+        $kenkyo = $this->Users->find("list", ["limit" => 200])
+            ->where(["belongs_id" => 2])
+            ->where(["users_id !=" => 7])
+            ->where(["delete_flag" => 0]);
+        $sistem = $this->Users->find("list", ["limit" => 200])
+            ->where(["belongs_id" => 3])
+            ->where(["users_id !=" => 7])
+            ->where(["delete_flag" => 0]);
+        $kintai = $this->Users->find("list", ["limit" => 200])
+            ->where(["belongs_id" => 4])
+            ->where(["users_id !=" => 7])
+            ->where(["delete_flag" => 0]);
+        $users = $this->Users->find('list', ['limit' => 200])
+            ->where(["users_id !=" => 7])
+            ->where(["delete_flag" => 0]);
+        $allUser = $this->Users->find("list", ["limit" => 200])
+            ->where(["users_id" => 7]);
+        //$this->set(compact('messageBord', 'messageStatuses', "users", "allUser"));
+        $this->set(compact('messageBord', 'messageStatuses', "users", "allUser", "soukatu", "kenkyo", "sistem", "kintai"));
     }
 
     /**

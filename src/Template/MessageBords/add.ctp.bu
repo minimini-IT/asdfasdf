@@ -46,23 +46,10 @@
             echo "<label><input id='allUser' type='checkbox'>全選択</label>";
             echo "<label><input id='soukatu' type='checkbox'>総括</label>";
             echo "<label><input id='kintai' type='checkbox'>キンタイ</label>";
-            echo "<label><input id='sistem' type='checkbox'>シスカン</label>";
+            echo "<label><input id='sisukan' type='checkbox'>シスカン</label>";
             echo "<label><input id='kenkyo' type='checkbox'>kenkyo</label>";
             echo "<div id='destinationUser'>";
-            echo "<label>宛先ユーザ</label>";
-            echo "<div id='soukatuUser'>";
-            echo str_replace(";", " ", $this->Form->control("user", ["label" => false, "class" => "soukatu", "multiple" => "checkbox", "options" => $soukatu]));
-            echo "</div>";
-            echo "<div id='kenkyoUser'>";
-            echo str_replace(";", " ", $this->Form->control("user", ["label" => false, "class" => "kenkyo", "multiple" => "checkbox", "options" => $kenkyo]));
-            echo "</div>";
-            echo "<div id='sistemUser'>";
-            echo str_replace(";", " ", $this->Form->control("user", ["label" => false, "class" => "sistem", "multiple" => "checkbox", "options" => $sistem]));
-            echo "</div>";
-            echo "<div id='kintaiUser'>";
-            echo str_replace(";", " ", $this->Form->control("user", ["label" => false, "class" => "kintai", "multiple" => "checkbox", "options" => $kintai]));
-            echo "</div>";
-            //echo str_replace(";", " ", $this->Form->control("user", ["label" => "宛先ユーザ", "multiple" => "checkbox", "options" => $users]));
+            echo str_replace(";", " ", $this->Form->control("user", ["label" => "宛先ユーザ", "multiple" => "checkbox", "options" => $users]));
             echo "</div>";
             //filesへの入力
             echo $this->Form->file("file[]", ["multiple" => "true", "secure" => false]);

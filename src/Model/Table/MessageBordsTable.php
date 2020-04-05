@@ -102,6 +102,9 @@ class MessageBordsTable extends Table
             ->requirePresence('period', 'create')
             ->notEmptyDate('period');
 
+        $validator
+            ->notEmptyDate('private[]');
+
         return $validator;
     }
 
