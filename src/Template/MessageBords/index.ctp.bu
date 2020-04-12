@@ -1,9 +1,15 @@
 <?php
+    //$this->extend("/Layout/TwitterBootstrap/dashboard");
+    $this->extend("/Layout/TwitterBootstrap/cover");
+    //$this->extend("/Layout/TwitterBootstrap/signin");
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\MessageBord[]|\Cake\Collection\CollectionInterface $messageBords
  */
 ?>
+<div class="container-fluid bg-light">
+    <div class="row">
+        <div class="col-md-3">
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
   <ul class="side-nav">
     <li class="heading"><?= __('Actions') ?></li>
@@ -18,6 +24,8 @@
   <p>メッセージの返事は選択肢の選択は必須、コメントはなくても可</p>
   <p>選択肢は一つのみ選択可</p>
 </nav>
+        </div>
+        <div class="col-md-9">
 <div class="messageBords index large-9 medium-8 columns content">
   <h3><?= __('メッセージボード') ?></h3>
   <table cellpadding="0" cellspacing="0">
@@ -40,29 +48,29 @@
     <tbody>
       <tr>
         <td><?= 
-            h($messageBord->incident_management->management_prefix->management_prefix) . "-" .  
-            $messageBord->incident_management->created->format("Ymd") . "-" .  
-            h($messageBord->incident_management->number)
+            h($messageBord->message_bord->incident_management->management_prefix->management_prefix) . "-" .  
+            $messageBord->message_bord->incident_management->created->format("Ymd") . "-" .  
+            h($messageBord->message_bord->incident_management->number)
         ?></td>
-        <td><?= $this->Number->format($messageBord->message_bords_id) ?></td>
-        <td><?= h($messageBord->user->first_name . $messageBord->user->last_name) ?></td>
-        <td><?= h($messageBord->title) ?></td>
-        <td><?= $messageBord->message_status->status ?></td>
-        <td><?= h($messageBord->period) ?></td>
-        <td><?= h($messageBord->modified) ?></td>
+        <td><?= $this->Number->format($messageBord->message_bord->message_bords_id) ?></td>
+        <td><?= h($messageBord->message_bord->user->first_name . $messageBord->message_bord->user->last_name) ?></td>
+        <td><?= h($messageBord->message_bord->title) ?></td>
+        <td><?= $messageBord->message_bord->message_status->status ?></td>
+        <td><?= h($messageBord->message_bord->period) ?></td>
+        <td><?= h($messageBord->message_bord->modified) ?></td>
         <td class="actions">
-          <?= $this->Html->link(__('編集'), ['action' => 'edit', $messageBord->message_bords_id]) ?>
-          <?= $this->Form->postLink(__('削除'), ['action' => 'delete', $messageBord->message_bords_id], ['confirm' => __('{0} を削除してよろしいですか？', $messageBord->title)]) ?>
+          <?= $this->Html->link(__('編集'), ['action' => 'edit', $messageBord->message_bord->message_bords_id]) ?>
+          <?= $this->Form->postLink(__('削除'), ['action' => 'delete', $messageBord->message_bord->message_bords_id], ['confirm' => __('{0} を削除してよろしいですか？', $messageBord->title)]) ?>
         </td>
       </tr>
     </tbody>
   </table>
   <div class="node">
-    <pre><p><?= h($messageBord->message) ?></p></pre>
+    <pre><p><?= h($messageBord->message_bord->message) ?></p></pre>
     <h5>ファイル</h5>
     <hr>
     <table>
-  <?php foreach($messageBord->message_files as $file): ?>
+  <?php foreach($messageBord->message_bord->message_files as $file): ?>
       <tr>
         <td>
           <?= $this->Html->link($file->file_name, ["controller" => "Download", 'action' => 'bordFileDownload', $file->message_files_id]) ?>
@@ -79,7 +87,7 @@
     <hr>
   <?php 
     $counts = [];
-    foreach($messageBord->message_destinations as $destination){
+    foreach($messageBord->message_bord->message_destinations as $destination){
       if(null !== $destination->message_answer){
         $counts[] =  $destination->message_answer->message_choices_id;
       }else{
@@ -91,7 +99,7 @@
   
     <table>
   <?php $choices = []; ?>
-  <?php foreach($messageBord->message_choices as $choice): ?>
+  <?php foreach($messageBord->message_bord->message_choices as $choice): ?>
     <?php $choices[$choice->message_choices_id] = $choice->content ?>
       <tr>
     <?php if(array_key_exists($choice->message_choices_id, $count)): ?>
@@ -122,7 +130,7 @@
         <th>編集</th>
       </tr>
   <?php $user = [] ?>
-  <?php foreach($messageBord->message_destinations as $destination): ?>
+  <?php foreach($messageBord->message_bord->message_destinations as $destination): ?>
     <?php if(null == $destination->message_answer): ?>
       <?php $user[$destination->message_destinations_id] = $destination->user->first_name . $destination->user->last_name ?>
     <?php endif ?>
@@ -145,7 +153,7 @@
   
   <?php
   $flag = false; 
-  foreach($messageBord->message_destinations as $destination){
+  foreach($messageBord->message_bord->message_destinations as $destination){
     if(null === $destination->message_answer){
       $flag = true; 
       break;
@@ -184,4 +192,6 @@
     </ul>
     <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
   </div>
+</div>
+</div>
 </div>

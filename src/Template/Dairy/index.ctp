@@ -1,4 +1,7 @@
 <?php 
+    //$this->extend("/Layout/TwitterBootstrap/dashboard");
+    //$this->extend("/Layout/TwitterBootstrap/cover");
+    //$this->extend("/Layout/TwitterBootstrap/signin");
     $this->assign("title", "日誌"); 
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">

@@ -24,7 +24,6 @@ $(function(){
 
     //詳細の表示非表示
     $('.branch tr:nth-child(1)').click(function(){
-        console.log("js読み込み");
         $(this).parents("table").next(".node").slideToggle();
     });
     
